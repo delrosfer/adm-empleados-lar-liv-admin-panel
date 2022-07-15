@@ -79,9 +79,9 @@
                 </a>
                 <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('users.index') }}">Users</a>
+                        <a class="collapse-item" href="{{ route('users.index') }}">Usuarios</a>
                         <a class="collapse-item" href="cards.html">Role</a>
-                        <a class="collapse-item" href="cards.html">Permission</a>
+                        <a class="collapse-item" href="cards.html">Permisos</a>
                     </div>
                 </div>
             </li>
@@ -180,6 +180,12 @@
             $('#exampleModal').modal('hide')
         })
     </script>
+    <script>
+        window.addEventListener('showModal', event => {
+            $('#exampleModal').modal('show')
+        })
+    </script>
+
     <script>
         $("#birthDate").flatpickr();
         $("#dateHired").flatpickr();

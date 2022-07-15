@@ -10,6 +10,9 @@ class UserIndex extends Component
 {
     public $search='';
     public $username, $firstName, $lastName, $email, $password;
+    public $userId;
+    public $editMode = false;
+
     protected $rules = [
         'username' => 'required',
         'firstName' => 'required',
@@ -31,6 +34,60 @@ class UserIndex extends Component
         ]);
         $this->reset();
         $this->dispatchBrowserEvent('closeModal');
+
+        session()->flash('user-message', 'Usuario creado exitosamente');
+    }
+
+    public function showEditModal($id)
+    {
+        $this->reset();
+        $this->editMode = true;
+
+        $this->userId = $id;
+
+        $this->loadUser();
+
+        $this->dispatchBrowserEvent('showModal');
+    }
+
+    public function loadUser()
+    {
+        $user = User::find($this->userId);
+
+        $this->username = $user->username;
+        $this->firstName = $user->first_name;
+        $this->lastName = $user->last_name;
+        $this->email = $user->email;
+    }
+
+    public function updateUser()
+    {
+        $validated = $this->validate([
+        'username' => 'required',
+        'firstName' => 'required',
+        'lastName' => 'required',
+        'email' => 'required|email',
+        ]);
+        $user = User::find($this->userId);
+        $user->update($validated);
+        $this->reset();
+        $this->dispatchBrowserEvent('closeModal');
+
+        session()->flash('user-message', 'Usuario actualizado exitosamente');
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        session()->flash('user-message', 'Usuario eliminado exitosamente');
+    }
+
+    public function closeModal()
+    {
+        $this->dispatchBrowserEvent('closeModal');
+        $this->reset();
     }
 
     public function render()
