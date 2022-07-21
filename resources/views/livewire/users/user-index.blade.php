@@ -15,10 +15,10 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col">
-                        <form method="GET" action="{{ route('users.index') }}">
+                        <form>
                             <div class="form-row align-items-center">
                                 <div class="col">
-                                    <input type="search" wire:model="search" name="search" class="form-control mb-2" id="inlineFormInput"
+                                    <input type="search" wire:model.defer="search" name="search" class="form-control mb-2" id="inlineFormInput"
                                         placeholder="Buscar un usuario">
                                 </div>
                                 <div class="col" wire:loading>
@@ -31,17 +31,17 @@
                     </div>
                     <div>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <button wire:click="showUserModal" class="btn btn-primary">
                           Crear nuevo usuario
                         </button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table" wire:loading.remove>
+                <table class="table border-separate border border-slate-400 table-hover table-auto bg-sky-100/100" wire:loading.remove>
                     <thead>
                         <tr>
-                            <th scope="col">#Id</th>
+                            <th scope="col">Id</th>
                             <th scope="col">Nombre de Usuario</th>
                             <th scope="col">Apellido Paterno</th>
                             <th scope="col">Apellido Materno</th>
@@ -71,14 +71,21 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                {{ $users->links('pagination::bootstrap-5') }}
+            </div>
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crear nuevo usuario</h5>
+                @if($editMode)
+                    <h5 class="modal-title" id="userModalLabel">Actualizar usuario</h5>
+                @else
+                    <h5 class="modal-title" id="userModalLabel">Crear nuevo usuario</h5>
+                @endif
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -91,7 +98,7 @@
 
                         <div class="col-md-6">
                             <input id="username" type="text"
-                                class="form-control @error('name') is-invalid @enderror" wire:model.defer="username">
+                                class="form-control @error('username') is-invalid @enderror" wire:model.defer="username">
 
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
@@ -102,12 +109,12 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="first_name"
+                        <label for="firstName"
                             class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
 
                         <div class="col-md-6">
                             <input id="firstName" type="text"
-                                class="form-control @error('firstNameame') is-invalid @enderror" wire:model.defer="firstName">
+                                class="form-control @error('firstName') is-invalid @enderror" wire:model.defer="firstName">
 
                             @error('firstName')
                                 <span class="invalid-feedback" role="alert">
@@ -118,12 +125,12 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="last_name"
+                        <label for="lastName"
                             class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
 
                         <div class="col-md-6">
                             <input id="lastName" type="text"
-                                class="form-control @error('name') is-invalid @enderror" wire:model.defer="lastName">
+                                class="form-control @error('lastName') is-invalid @enderror" wire:model.defer="lastName">
 
                             @error('lastName')
                                 <span class="invalid-feedback" role="alert">
@@ -173,7 +180,7 @@
                 @if($editMode)
                     <button type="button" class="btn btn-primary" wire:click="updateUser">Actualizar Usuario</button>
                 @else
-                    <button type="button" class="btn btn-primary" wire:click="storeUser">Crear Usuario</button>
+                    <button type="button" class="btn btn-success" wire:click="storeUser">Crear Usuario</button>
                 @endif
                 
                 

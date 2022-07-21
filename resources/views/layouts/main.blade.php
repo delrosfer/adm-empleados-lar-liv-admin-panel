@@ -44,8 +44,8 @@
             <hr class="sidebar-divider">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span>Administración de Empleados</span></a>
+                <a class="nav-link" href="{{ route('employees.index') }}">
+                    <span class="font-bold">Administrar Empleados</span></a>
             </li>
 
             <!-- Divider -->
@@ -56,14 +56,14 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSystem"
                     aria-expanded="true" aria-controls="collapseSystem">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Administrar el sistema</span>
+                    <span class="font-bold">Administrar el sistema</span>
                 </a>
                 <div id="collapseSystem" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">Country</a>
-                        <a class="collapse-item" href="#">State</a>
-                        <a class="collapse-item" href="#">City</a>
-                        <a class="collapse-item" href="#') }}">Department</a>
+                        <a class="collapse-item" href="{{ route('countries.index') }}">Pais</a>
+                        <a class="collapse-item" href="{{ route('states.index') }}">Estado</a>
+                        <a class="collapse-item" href="{{ route('cities.index') }}">Ciudad</a>
+                        <a class="collapse-item" href="{{ route('departments.index') }}">Departamento</a>
                     </div>
                 </div>
             </li>
@@ -75,7 +75,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
                     aria-expanded="true" aria-controls="collapseUser">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Administrar de Usuarios</span>
+                    <span class="font-bold">Administrar Usuarios</span>
                 </a>
                 <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -95,7 +95,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-orange topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -111,15 +111,15 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
-                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
+                                    class="font-bold mr-2 d-none d-lg-inline text-green-600 small">Usuario: {{ Auth::user()->username." "}}{{ auth()->user()->first_name }}</span>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            <div class="font-bold dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    {{ __('Logout') }}
+                                    {{ __('Salir') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -176,13 +176,8 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        window.addEventListener('closeModal', event => {
-            $('#exampleModal').modal('hide')
-        })
-    </script>
-    <script>
-        window.addEventListener('showModal', event => {
-            $('#exampleModal').modal('show')
+        window.addEventListener('modal', event => {
+            $(event.detail.modalId).modal(event.detail.actionModal)
         })
     </script>
 
